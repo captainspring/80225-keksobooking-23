@@ -15,22 +15,26 @@ const getRandomNumber = (min, max) => {
 // from MDN Math.random() page
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#getting_a_random_integer_between_two_values_inclusive
 const getRandomInteger = (firstNumber, secondNumber) => {
-  if (firstNumber >= 0 && secondNumber >=0) {
-    firstNumber = Math.ceil(firstNumber);
-    secondNumber = Math.floor(secondNumber);
+  if (typeof firstNumber === 'number' && typeof secondNumber === 'number') {
+    if (firstNumber >= 0 && secondNumber >= 0) {
+      firstNumber = Math.ceil(firstNumber);
+      secondNumber = Math.floor(secondNumber);
 
-    return Math.floor(getRandomNumber(firstNumber, secondNumber));
+      return Math.floor(getRandomNumber(firstNumber, secondNumber));
+    }
   }
 };
 
 // from Dr. Derek Austin’s article
 // https://medium.com/swlh/how-to-round-to-a-certain-number-of-decimal-places-in-javascript-ed74c471c1b8
 const getCoordinate = (firstNumber, secondNumber, decimalPlaces) => {
-  if (firstNumber >= 0 && secondNumber >= 0) {
-    const factorOfTen = Math.pow(10, decimalPlaces);
-    const number = getRandomNumber(firstNumber, secondNumber);
+  if (typeof firstNumber === 'number' && typeof secondNumber === 'number' && typeof decimalPlaces === 'number') {
+    if (firstNumber >= 0 && secondNumber >= 0) {
+      const factorOfTen = Math.pow(10, decimalPlaces);
+      const number = getRandomNumber(firstNumber, secondNumber);
 
-    return Math.round(number * factorOfTen) / factorOfTen;
+      return Math.round(number * factorOfTen) / factorOfTen;
+    }
   }
 };
 
