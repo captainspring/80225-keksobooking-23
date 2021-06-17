@@ -20,7 +20,7 @@ const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
 const LNG_DECIMAL_PLACES = 5;
 const PRICE_MIN = 1;
-const PRICE_MAX = 500000;
+const PRICE_MAX = 50000;
 const TYPES = [
   'palace',
   'flat',
