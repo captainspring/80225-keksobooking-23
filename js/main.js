@@ -1,3 +1,5 @@
-import {similarOffers} from './data.js';
+import {createOffers} from './data.js';
 
-similarOffers;
+const SIMILAR_OFFERS_COUNT = 10;
+
+console.log(createOffers(SIMILAR_OFFERS_COUNT));
