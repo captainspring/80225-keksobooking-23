@@ -20,7 +20,7 @@ const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
 const LNG_DECIMAL_PLACES = 5;
 const PRICE_MIN = 1;
-const PRICE_MAX = 500000;
+const PRICE_MAX = 50000;
 const TYPES = [
   'palace',
   'flat',
@@ -32,7 +32,6 @@ const ROOMS_MIN_QTY = 1;
 const ROOMS_MAX_QTY = 6;
 const GUESTS_MIN_QTY = 1;
 const GUESTS_MAX_QTY = 10;
-const SIMILAR_OFFERS_COUNT = 10;
 const TIMES = [
   '12:00',
   '13:00',
@@ -88,23 +87,9 @@ const getRandomArray = (array) => {
   return randomArray;
 };
 
-
-const getAvatars = () => {
-  const result = [];
-
-  for (let i = 0; i < SIMILAR_OFFERS_COUNT; i++) {
-    const number = (i + 1).toString().padStart(AVATAR_DIGITS_QTY, '0');
-    const avatar = `img/avatars/user${number}.png`;
-
-    result.push(avatar);
-  }
-
-  return result;
-};
-
-const avatars = getAvatars();
-
 const createOffer = (index) => {
+  const avatarNumber = (index + 1).toString().padStart(AVATAR_DIGITS_QTY, '0');
+
   const lat = getRandomFloatNumber(LAT_MIN, LAT_MAX, LAT_DECIMAL_PLACES);
   const lng = getRandomFloatNumber(LNG_MIN, LNG_MAX, LNG_DECIMAL_PLACES);
 
@@ -117,7 +102,7 @@ const createOffer = (index) => {
 
   return {
     author: {
-      avatar: avatars[index],
+      avatar: `img/avatars/user${avatarNumber}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLES),
@@ -139,6 +124,6 @@ const createOffer = (index) => {
   };
 };
 
-const similarOffers = new Array(SIMILAR_OFFERS_COUNT).fill(null).map((element, index) => createOffer(index));
+const createOffers = (count) => new Array(count).fill(null).map((element, index) => createOffer(index));
 
-export {similarOffers};
+export {createOffers};
