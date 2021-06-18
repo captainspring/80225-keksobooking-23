@@ -1,3 +1,4 @@
+// source https://gist.github.com/realmyst/1262561
 const CASES = [2, 0, 1, 1, 1, 2];
 
 function declOfNum(number, titles) {
