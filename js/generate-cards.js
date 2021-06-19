@@ -1,13 +1,44 @@
+import {declOfNum} from './utils/utils.js';
+
 const templateFragment = document.querySelector('#card').content;
 const template = templateFragment.querySelector('.popup');
 const fragment = document.createDocumentFragment();
 
+const types = {
+  'flat': 'Квартира',
+  'bungalow': 'Бунгало',
+  'house': 'Дом',
+  'palace': 'Дворец',
+  'hotel': 'Отель',
+};
+
+const getFeatures = (features, list) => {
+  features.forEach((feature) => {
+    const li = document.createElement('LI');
+    li.classList.add('popup__feature');
+    li.classList.add(`popup__feature--${feature}`);
+
+    list.appendChild(li);
+  });
+
+  return list;
+};
+
+const getPhotos = (photos, photoTemplate, list) => {
+  photos.forEach((photo) => {
+    const item = photoTemplate.cloneNode(false);
+    item.src = photo;
+    list.appendChild(item);
+  });
+
+  return list;
+};
+
 const generateCards = (data) => {
   for (let i = 0; i < data.length; i++) {
     const card = template.cloneNode(true);
-    const featureListTemplate = card.querySelector('.popup__features').cloneNode(false);
-    const photosListTemplate = card.querySelector('.popup__photos');
-    const photoItemTemplate = card.querySelector('.popup__photo').cloneNode(false);
+    const featuresListTemplate = card.querySelector('.popup__features').cloneNode(false);
+    const photosListTemplate = card.querySelector('.popup__photos').cloneNode(false);
 
     const avatar = card.querySelector('.popup__avatar');
     const title = card.querySelector('.popup__title');
@@ -16,74 +47,23 @@ const generateCards = (data) => {
     const type = card.querySelector('.popup__type');
     const capacity = card.querySelector('.popup__text--capacity');
     const time = card.querySelector('.popup__text--time');
-    const featureItems = card.querySelectorAll('.popup__feature');
     const description = card.querySelector('.popup__description');
-    const photosList = card.querySelector('.popup__photos').cloneNode(false);
+    const featuresList = card.querySelector('.popup__features');
+    const photosList = card.querySelector('.popup__photos');
+    const photoItem = card.querySelector('.popup__photo');
 
     const offer = data[i].offer;
-
-    const getType = (dataType) => {
-      switch (dataType) {
-        case 'flat': return 'Квартира';
-        case 'bungalow': return 'Бунгало';
-        case 'house': return 'Дом';
-        case 'palace': return 'Дворец';
-        case 'hotel': return 'Отель';
-      }
-    };
-
-    const getRoomsWordEnding = () => {
-      if (offer.rooms === 1) {
-        return 'а';
-      } else if (offer.rooms > 1 && offer.rooms < 5) {
-        return 'ы';
-      } else {
-        return '';
-      }
-    };
-
-    const getGuestsWordEnding = () => {
-      if (offer.guests === 1) {
-        return 'я';
-      } else {
-        return 'ей';
-      }
-    };
-
-    const getFeatures = (features) => {
-      for (const feature of features) {
-        for (let j = 0; j < featureItems.length; j++) {
-          const featureItem = featureItems[j];
-
-          if (featureItem.classList[1] === `popup__feature--${feature}`) {
-            featureListTemplate.appendChild(featureItem);
-          }
-        }
-      }
-
-      return featureListTemplate;
-    };
-
-    const getPhotos = (photos) => {
-      for (const photo of photos) {
-        const newItem = photoItemTemplate.cloneNode(true);
-        newItem.src = photo;
-        photosList.appendChild(newItem);
-      }
-
-      return photosList;
-    };
 
     avatar.src = data[i].author.avatar;
     title.textContent = offer.title;
     address.textContent = offer.address;
     price.innerHTML = `${offer.price} <span>₽/ночь</span>`;
-    type.textContent = getType(offer.type);
-    capacity.textContent = `${offer.rooms} комнат${getRoomsWordEnding()} для ${offer.guests} гост${getGuestsWordEnding()}`;
+    type.textContent = types[offer.type];
+    capacity.textContent = `${offer.rooms} ${declOfNum(offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${offer.guests} ${declOfNum(offer.guests, ['гостя', 'гостей', 'гостей'])}`;
     time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
     description.textContent = offer.description;
-    getFeatures(offer.features);
-    card.replaceChild(getPhotos(offer.photos), photosListTemplate);
+    card.replaceChild(getFeatures(offer.features, featuresListTemplate), featuresList);
+    card.replaceChild(getPhotos(offer.photos, photoItem, photosListTemplate), photosList);
 
     fragment.appendChild(card);
   }
