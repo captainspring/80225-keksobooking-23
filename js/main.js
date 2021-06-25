@@ -1,21 +1,17 @@
 import {createOffers} from './data.js';
-import {generateCards} from './generate-cards.js';
-import {activateForm} from './utils/activate-form.js';
+import {generateCards} from './generate-card.js';
+import {disableForm, enableForm} from './form.js';
+import {disableFilters, enableFilters, showCard} from './map.js';
 
-const SIMILAR_OFFERS_COUNT = 1;
-
-const form = document.querySelector('.ad-form');
-const formElements = form.querySelectorAll('.ad-form__element, #avatar');
-const filter = document.querySelector('.map__filters');
-const filters = filter.querySelectorAll('.map__filter, .map__features');
+const SIMILAR_OFFERS_COUNT = 10;
 
 const offers = createOffers(SIMILAR_OFFERS_COUNT);
-const card = generateCards(offers);
+const card = generateCards(offers[0]);
 
-document.querySelector('#map-canvas').appendChild(card);
+showCard(card);
 
-activateForm('false', form, formElements);
-activateForm('false', filter, filters);
+disableForm();
+disableFilters();
 
-activateForm('true', form, formElements);
-activateForm('true', filter, filters);
+enableForm();
+enableFilters();
