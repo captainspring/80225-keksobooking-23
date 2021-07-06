@@ -1,19 +1,9 @@
-import {activateElementsInArray} from './activate-elements-in-array.js';
+const activateForm = (isActive, form, formElements) => {
+  const formClass = form.classList[0];
 
-const activateForm = (isActive, form, elements) => {
-  if (typeof isActive === 'string') {
-    const formClass = form.classList[0];
+  form.classList.toggle(`${formClass}--disabled`, !isActive);
 
-    if (isActive === 'true') {
-      if (form.classList.contains(`${formClass}--disabled`)) {
-        form.classList.remove(`${formClass}--disabled`);
-      }
-    } else {
-      form.classList.add(`${formClass}--disabled`);
-    }
-
-    activateElementsInArray(isActive, elements);
-  }
+  formElements.forEach((element) => element.disabled = !isActive);
 };
 
 export {activateForm};
